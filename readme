@@ -1,0 +1,4 @@
+1. Create a python + html webiste that contains 2 forms for login
+2. Choose a database solution to handle users login and data stored. Notes, dates etc
+3. Configure connection app - db. validate data flow
+4. Deploy it by Docker images + Kubernetes
