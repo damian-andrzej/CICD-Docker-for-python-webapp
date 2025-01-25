@@ -2,3 +2,6 @@
 2. Choose a database solution to handle users login and data storage. Notes, dates etc
 3. Configure connection app - db. validate data flow
 4. Deploy it by Docker images + Kubernetes
+
+1.
+The app is a simple Flask-based login system. It runs on the default port 5000 in debug mode. Users can access a login page to input their username and password, with dummy credentials hardcoded for validation. After successful login, they are redirected to a dashboard. Flash messages are used for feedback, and sensitive information is secured with a secret key
