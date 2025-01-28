@@ -87,33 +87,38 @@ echo ".env" >> .gitignore
 Creating the Database
 You need to create the database before running the app. Follow these steps:
 
-1. Initialize the Database
+# 1. Initialize the Database
 Run the following Python script to create the database tables:
 
 from app import db
 db.create_all()
 This will create the users.db file with the User model.
 
-2. Manually Add a User (Optional)
+# 2. Manually Add a User (Optional)
 If you want to manually add a user to the database, you can use the following code in the Python shell:
 
 from app import db, bcrypt
 from app import User
 
-# Create a new user with a hashed password
+ Create a new user with a hashed password
 hashed_password = bcrypt.generate_password_hash('password123').decode('utf-8')
 user = User(username='admin', password=hashed_password)
 
-# Add the user to the database
+ Add the user to the database
+ 
 db.session.add(user)
 db.session.commit()
 Running the App
+
+
 Once you have set up the database, you can run the Flask app:
+
 
 1. Run the Flask App
 Start the development server by running:
-
+```
 python app.py
+```
 2. Visit the App
 Open your web browser and navigate to http://127.0.0.1:5000/ to view the app.
 
