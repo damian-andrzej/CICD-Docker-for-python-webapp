@@ -35,22 +35,23 @@ Before getting started, ensure you have the following installed:
 
 ---
 
-## **Setting Up the Project**
+### **Setting Up the Project**
 
 Follow these steps to set up your development environment:
 
-### 1. **Clone the Repository**
+## 1. **Clone the Repository**
 
 Clone this repository to your local machine using Git:
 
 ```bash
-git clone https://github.com/your-username/flask-user-login-app.git
-cd flask-user-login-app
+git clone https://github.com/damian-andrzej/HA-NoteBuilder.git
+cd HA-NoteBuilder
 
-2. Create a Virtual Environment
+```
+## 2. Create a Virtual Environment
 Create a virtual environment to isolate the dependencies:
 
-
+```bash
 python -m venv venv
 Activate the virtual environment:
 
@@ -60,19 +61,21 @@ venv\Scripts\activate
 
 Mac/Linux:
 source venv/bin/activate
+```
 
-3. Install Required Dependencies
+## 3. Install Required Dependencies
 Install the dependencies listed in requirements.txt:
 
-
+```bash
 pip install -r requirements.txt
 The required dependencies are:
 
 Flask
 Flask-SQLAlchemy
 Flask-Bcrypt
+```
+## 4. Set Up Environment Variables (Optional)
 
-4. Set Up Environment Variables (Optional)
 Set up a .env file for your environment variables like SECRET_KEY for session handling. Here is an example of a env file:
 
 
@@ -118,7 +121,7 @@ Visit the Login page at /login.
 After logging in successfully, you will be redirected to the Dashboard page.
 
 
-# Directory Structure
+### **Directory Structure**
 Here is a suggested directory structure for this Flask app:
 
 
@@ -135,8 +138,10 @@ flask-user-login-app/
 ├── requirements.txt     # List of dependencies
 ├── .gitignore           # Git ignore file
 └── .env                 # Environment variables (not committed to GitHub)
-App Overview
-1. User Model:
+
+
+### **App Overview**
+# 1. User Model:
 The app uses an SQLAlchemy User model that has id, username, and password (hashed) fields.
 
 
@@ -149,17 +154,17 @@ class User(db.Model):
         return f"User('{self.username}')"
 
 
-2. Login Flow:
+## 2. Login Flow:
 The app allows users to log in using a username and password. The password is securely hashed using Flask-Bcrypt and compared with the stored hash in the database.
 
-3. Flask Routes:
+## 3. Flask Routes:
 
 /login: Displays the login form and processes user authentication.
 /dashboard: Displays a protected page that can only be accessed by logged-in users.
-4. Session Management:
+## 4. Session Management:
 The app uses Flask’s session object to keep track of the logged-in user.
 
-5. Flash Messages:
+## 5. Flash Messages:
 Flash messages are used to give feedback to the user about login success or failure.
 
 Additional Features - work in progress
