@@ -73,7 +73,7 @@ Flask-SQLAlchemy
 Flask-Bcrypt
 
 4. Set Up Environment Variables (Optional)
-Set up a .env file for your environment variables like SECRET_KEY for session handling. Here's an example of a env file:
+Set up a .env file for your environment variables like SECRET_KEY for session handling. Here is an example of a env file:
 
 
 SECRET_KEY=your_random_secret_key
