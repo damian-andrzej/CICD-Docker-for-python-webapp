@@ -115,7 +115,7 @@ python app.py
 Open your web browser and navigate to http://127.0.0.1:5000/ to view the app.
 
 Visit the Login page at /login.
-After logging in successfully, you'll be redirected to the Dashboard page.
+After logging in successfully, you will be redirected to the Dashboard page.
 
 
 # Directory Structure
