@@ -1,7 +1,48 @@
-1. Create a python + html webiste that contains 2 forms for login
-2. Choose a database solution to handle users login and data storage. Notes, dates etc
-3. Configure connection app - db. validate data flow
-4. Deploy it by Docker images + Kubernetes
+# Flask User Login App
 
-1.
-The app is a simple Flask-based login system. It runs on the default port 5000 in debug mode. Users can access a login page to input their username and password, with dummy credentials hardcoded for validation. After successful login, they are redirected to a dashboard. Flash messages are used for feedback, and sensitive information is secured with a secret key
+## **Introduction**
+
+This is a simple Flask app that allows users to register, log in, and view a protected dashboard. It uses Flask, Flask-SQLAlchemy for database management, and Flask-Bcrypt for password hashing.
+
+---
+
+## **Table of Contents**
+
+- [Prerequisites](#prerequisites)
+- [Setting Up the Project](#setting-up-the-project)
+- [Creating the Database](#creating-the-database)
+- [Running the App](#running-the-app)
+- [Directory Structure](#directory-structure)
+- [App Overview](#app-overview)
+- [Additional Features You Can Add](#additional-features-you-can-add)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## **Prerequisites**
+
+Before getting started, ensure you have the following installed:
+
+1. **Python 3.x**  
+   Install from [Python.org](https://www.python.org/).
+
+2. **pip** (Python Package Installer)  
+   Install with Python or separately from [pip.pypa.io](https://pip.pypa.io/en/stable/).
+
+3. **Git** (Optional but recommended)  
+   Install from [Git SCM](https://git-scm.com/).
+
+---
+
+## **Setting Up the Project**
+
+Follow these steps to set up your development environment:
+
+### 1. **Clone the Repository**
+
+Clone this repository to your local machine using Git:
+
+```bash
+git clone https://github.com/your-username/flask-user-login-app.git
+cd flask-user-login-app
