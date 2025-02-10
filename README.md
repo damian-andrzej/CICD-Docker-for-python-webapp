@@ -178,7 +178,7 @@ User Registration: Implement a registration form where users can sign up by prov
 Password Reset: Implement a password reset feature where users can reset their forgotten password via email.
 Rate Limiting: Implement rate-limiting to prevent brute force login attempts.
 
-### **Docker**
+# **Docker**
 
 ## 1.  Create a requirements file:
 
@@ -233,7 +233,7 @@ services:
     restart: always
 ```
 
-### **AWS deployment**
+# **AWS deployment**
 
 ## 1.  Terraform - provision infra:
 
