@@ -178,3 +178,116 @@ User Registration: Implement a registration form where users can sign up by prov
 Password Reset: Implement a password reset feature where users can reset their forgotten password via email.
 Rate Limiting: Implement rate-limiting to prevent brute force login attempts.
 
+### **Docker**
+
+## 1.  Create a requirements file:
+
+Simple trick to gather all requirement dependencies that program uses is 'freeze' functionallity, here is simple command that output all liberaries to a file 
+
+```
+pip freeze > requirements.txt
+```
+
+## 1.  Create a Dockerfile
+
+Classic template for flask apps deployment - at this moment without storage and log folders - feature planned for next deployment
+```
+FROM python:3.9
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the current directory contents into the container
+COPY . .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port 5000 for Flask
+EXPOSE 5000
+
+# Command to run the application
+CMD ["python", "app.py"]
+```
+
+Lets update image file to Dockerhub for future automation purposes.
+
+Replace <your-dockerhub-username> with your Docker Hub username.
+Replace <image-name> with the name of your image.
+Replace <tag> with the version tag you want to assign to the image (e.g., latest or v1.0)
+```
+docker build -t <your-dockerhub-username>/<image-name>:<tag> .
+docker build -t damianus97/ha-flask1:latest .
+docker push <your-dockerhub-username>/<image-name>:<tag>
+docker push damianus97/ha-flask1:latest
+```
+## 2.  Create a Docker-compose:
+Setup Docker-compose that starts application up automatically with provided port and image 
+```
+version: "3"
+services:
+  web:
+    image: damianus97/ha-flask1:latest
+    ports:
+      - "5000:5000"
+    restart: always
+```
+
+### **AWS deployment**
+
+## 1.  Terraform - provision infra:
+
+Requirements:
+- EC2 machine (us-east1/t2-micro)
+- SSH key
+- security group/ami user with permissions
+- docker packages
+
+Lets create a security group for ec2 instance. We need ssh access for administration and port 5000 access for app availability
+
+```
+provider "aws" {
+  region = "us-east-1"  # Change to your region
+}
+resource "aws_security_group" "flask_sg" {
+  name        = "flask-security-group"
+  description = "Allow Flask app and SSH access"
+
+  # Allow SSH access (Restrict to your IP for security)
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Replace with your IP (e.g., "192.168.1.1/32")
+  }
+
+  # Allow Flask app access (Default: Port 5000)
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Change to your trusted IP if needed
+  }
+
+  # Allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+resource "aws_instance" "flask1-ec2" {
+  ami           = "ami-085ad6ae776d8f09c"  # Replace with a valid AMI ID
+  instance_type = "t2.micro"
+  key_name      = "damian-andrzej-ssh"
+
+  security_groups = [aws_security_group.my_sg.flask_sg]
+
+  tags = {
+    Name = "flask1-ec2"
+  }
+}
+```
+
+
