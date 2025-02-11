@@ -30,4 +30,4 @@ jobs:
 
       - name: Transfer files to EC2
         run: |
-          scp -r -o StrictHostKeyChecking=no * ${{ secrets.AWS_EC2_USER }}@${{ secrets.ANSIBLE_HOST }}:/home/${{ secrets.ANSIBLE_USER }}/app/
+         sudo scp -r -o StrictHostKeyChecking=no * ${{ secrets.AWS_EC2_USER }}@${{ secrets.ANSIBLE_HOST }}:/home/${{ secrets.ANSIBLE_USER }}/app/
