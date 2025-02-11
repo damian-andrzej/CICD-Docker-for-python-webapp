@@ -21,6 +21,10 @@ resource "aws_internet_gateway" "igw" {
 # Create a Route Table
 resource "aws_route_table" "route_table" {
   vpc_id = aws_vpc.main_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
 }
 
 # Associate Route Table with the Subnet
