@@ -29,12 +29,5 @@ jobs:
         run: |
           ansible-playbook -i ${{ secrets.ANSIBLE_HOST }}, -u ${{ secrets.ANSIBLE_USER }} playbook.yml
 
-      - name: Transfer files to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} << 'EOF'
-          cd /home/${{ secrets.ANSIBLE_USER }}/app
-          git clone https://github.com/damian-andrzej/Jenkins-Docker-for-python-webapp.git
-
-
       
           
