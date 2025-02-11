@@ -57,6 +57,39 @@
       debug:
         msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
 
+    - name: Find all files and directories in the target directory
+      find:
+        paths: "/home/ec2-user/app"  # Replace with your target directory path
+        recurse: yes  # Search recursively
+        file_type: file  # Find all files
+      register: files_to_delete
+
+    - name: Remove found files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ files_to_delete.files }}"
+      when: files_to_delete.matched > 0
+
+    - name: Find and remove subdirectories
+      find:
+        paths: "/home/ec2-user/app"  # Replace with your target directory path
+        recurse: yes
+        file_type: directory  # Find all directories
+      register: dirs_to_delete
+
+    - name: Remove found directories
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ dirs_to_delete.files }}"
+      when: dirs_to_delete.matched > 0
+
+    - name: Ensure the directory exists
+      file:
+        path: "/home/ec2-user/app"
+        state: directory
+
     - name: Clone or update the repository
       git:
         repo: "https://github.com/damian-andrzej/Jenkins-Docker-for-python-webapp.git"  # Repository URL
