@@ -64,7 +64,7 @@ resource "aws_security_group" "flask_sg" {
 resource "aws_instance" "flask1-ec2" {
   ami           = "ami-085ad6ae776d8f09c"  # Replace with a valid AMI ID
   instance_type = "t2.micro"
-  key_name      = "damian-andrzej-ssh"
+  key_name      = "terraform-key"
   security_groups = [aws_security_group.flask_sg.name]
 
   tags = {
