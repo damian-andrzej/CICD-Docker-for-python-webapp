@@ -249,6 +249,34 @@ Lets create a security group for ec2 instance. We need ssh access for administra
 provider "aws" {
   region = "us-east-1"  # Change to your region
 }
+# Create a VPC
+resource "aws_vpc" "main_vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+# Create a Subnet
+resource "aws_subnet" "public_subnet" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+}
+
+# Create an Internet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main_vpc.id
+}
+
+# Create a Route Table
+resource "aws_route_table" "route_table" {
+  vpc_id = aws_vpc.main_vpc.id
+}
+
+# Associate Route Table with the Subnet
+resource "aws_route_table_association" "rt_assoc" {
+  subnet_id      = aws_subnet.public_subnet.id
+  route_table_id = aws_route_table.route_table.id
+}
+
 resource "aws_security_group" "flask_sg" {
   name        = "flask-security-group"
   description = "Allow Flask app and SSH access"
@@ -281,8 +309,7 @@ resource "aws_instance" "flask1-ec2" {
   ami           = "ami-085ad6ae776d8f09c"  # Replace with a valid AMI ID
   instance_type = "t2.micro"
   key_name      = "damian-andrzej-ssh"
-
-  security_groups = [aws_security_group.my_sg.flask_sg]
+  security_groups = [aws_security_group.flask_sg.name]
 
   tags = {
     Name = "flask1-ec2"
