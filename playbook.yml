@@ -3,11 +3,11 @@
   become: yes
   tasks:
     - name: Update apt packages
-      apt:
+      yum:
         update_cache: yes
 
     - name: Install required packages
-      apt:
+      yum:
         name:
           - apt-transport-https
           - ca-certificates
@@ -26,11 +26,11 @@
         executable: /bin/bash
 
     - name: Update apt package index after adding Docker repo
-      apt:
+      yum:
         update_cache: yes
 
     - name: Install Docker
-      apt:
+      yum:
         name: docker-ce
         state: present
 
