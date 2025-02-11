@@ -98,10 +98,8 @@
         dest: "/home/ec2-user/app"                      # Target directory
         version: "main"                                  # Branch name (default: main)
         update: yes
+        
     # Run docker-compose up
-    - name: compose up
-      docker_compose:
-        project_src: "{{ app_dir }}"
-        state: present
-        restarted: yes
+    - name: Echo a hello message
+      command: echo "Hello, Ansible!"
     
