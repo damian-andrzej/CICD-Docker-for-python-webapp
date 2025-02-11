@@ -23,13 +23,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa  # Set correct permissions
           ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts  # Add host key
           ssh -T -i ~/.ssh/id_rsa ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }}
-          sudo scp -r -o StrictHostKeyChecking=no * ${{ secrets.AWS_EC2_USER }}@${{ secrets.ANSIBLE_HOST }}:/home/${{ secrets.ANSIBLE_USER }}/app/
 
 
       - name: Run Ansible Playbook
         run: |
           ansible-playbook -i ${{ secrets.ANSIBLE_HOST }}, -u ${{ secrets.ANSIBLE_USER }} playbook.yml
 
-  #    - name: Transfer files to EC2
-        #run: |
-         #sudo scp -r -o StrictHostKeyChecking=no * ${{ secrets.AWS_EC2_USER }}@${{ secrets.ANSIBLE_HOST }}:/home/${{ secrets.ANSIBLE_USER }}/app/
+      - name: Transfer files to EC2
+        run: |
+          sudo scp -r -o StrictHostKeyChecking=no * ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }}:/home/${{ secrets.ANSIBLE_USER }}/app/
