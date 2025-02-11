@@ -54,7 +54,3 @@
     - name: Print Docker Compose version
       debug:
         msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
-
-    - name: Show Docker Version
-      debug:
-        msg: "Docker installed successfully: {{ docker_version_output.stdout }}"
