@@ -98,7 +98,6 @@
         dest: "/home/ec2-user/app"                      # Target directory
         version: "main"                                  # Branch name (default: main)
         update: yes                                       # Ensures the repo is updated if it already exists
-
     # Run docker-compose up
     - name: Run docker-compose up
       docker_compose:
