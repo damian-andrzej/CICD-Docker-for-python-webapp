@@ -18,9 +18,9 @@ jobs:
 
       - name: Setup SSH Key
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa  # Remove carriage returns
-          chmod 600 ~/.ssh/id_rsa  # Set correct permissions
+          cd /home/runner/.ssh
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > id_rsa  # Remove carriage returns
+          sudo chmod 600 id_rsa  # Set correct permissions
           ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts  # Add host key
 
       - name: Run Ansible Playbook
