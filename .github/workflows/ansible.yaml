@@ -1,0 +1,28 @@
+name: Deploy Ansible Playbook
+
+on:
+  push:
+    branches:
+      - main  # Runs on push to the main branch
+
+jobs:
+  ansible:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Ansible
+        run: sudo apt update && sudo apt install -y ansible
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook -i ${{ secrets.ANSIBLE_HOST }}, -u ${{ secrets.ANSIBLE_USER }} playbook.yml
