@@ -58,8 +58,8 @@
         msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
 
     - name: Clone or update the repository
-        git:
-          repo: "https://github.com/damian-andrzej/Jenkins-Docker-for-python-webapp.git"  # Repository URL
-          dest: "/home/ec2-user/app"                      # Target directory
-          version: "main"                                  # Branch name (default: main)
-          update: yes                                       # Ensures the repo is updated if it already exists
+      git:
+        repo: "https://github.com/damian-andrzej/Jenkins-Docker-for-python-webapp.git"  # Repository URL
+        dest: "/home/ec2-user/app"                      # Target directory
+        version: "main"                                  # Branch name (default: main)
+        update: yes                                       # Ensures the repo is updated if it already exists
