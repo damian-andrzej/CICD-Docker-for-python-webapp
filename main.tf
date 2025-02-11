@@ -34,7 +34,7 @@ resource "aws_instance" "flask1-ec2" {
   instance_type = "t2.micro"
   key_name      = "damian-andrzej-ssh"
 
-  security_groups = [aws_security_group.my_sg.flask_sg]
+  security_groups = [aws_security_group.flask_sg]
 
   tags = {
     Name = "flask1-ec2"
