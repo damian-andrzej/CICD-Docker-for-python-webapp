@@ -14,11 +14,6 @@
           - lvm2
         state: present
 
-    - name: Add Docker repository
-      command: amazon-linux-extras enable docker
-      args:
-        creates: /etc/yum.repos.d/docker.repo
-
     - name: Install Docker
       yum:
         name: docker
