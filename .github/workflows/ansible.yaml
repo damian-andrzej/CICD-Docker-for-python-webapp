@@ -27,3 +27,7 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           ansible-playbook -i ${{ secrets.ANSIBLE_HOST }}, -u ${{ secrets.ANSIBLE_USER }} playbook.yml
+
+      - name: Transfer files to EC2
+        run: |
+          scp -r -o StrictHostKeyChecking=no * ${{ secrets.AWS_EC2_USER }}@${{ secrets.ANSIBLE_HOST }}:/home/${{ secrets.ANSIBLE_USER }}/app/
