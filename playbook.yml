@@ -1,6 +1,8 @@
 - name: Install Docker and Docker Compose
   hosts: all
   become: yes
+  vars:
+    app_dir: /home/ec2-user/app
   tasks:
     - name: Update apt packages
       yum:
@@ -96,3 +98,10 @@
         dest: "/home/ec2-user/app"                      # Target directory
         version: "main"                                  # Branch name (default: main)
         update: yes                                       # Ensures the repo is updated if it already exists
+
+    # Run docker-compose up
+    - name: Run docker-compose up
+      docker_compose:
+        project_src: "{{ app_dir }}"
+        state: present
+        restarted: yes
