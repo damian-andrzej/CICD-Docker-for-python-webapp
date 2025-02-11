@@ -6,56 +6,59 @@
       yum:
         update_cache: yes
 
-    - name: Install required packages
+    - name: Install required system packages
       yum:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
+        name: 
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
         state: present
 
-    - name: Add Docker GPG key
-      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      args:
-        executable: /bin/bash
-
     - name: Add Docker repository
-      shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      command: amazon-linux-extras enable docker
       args:
-        executable: /bin/bash
-
-    - name: Update apt package index after adding Docker repo
-      yum:
-        update_cache: yes
+        creates: /etc/yum.repos.d/docker.repo
 
     - name: Install Docker
       yum:
-        name: docker-ce
+        name: docker
         state: present
 
-    - name: Ensure Docker service is running
+    - name: Start and enable Docker service
       systemd:
         name: docker
         state: started
         enabled: yes
 
-    - name: Add user to Docker group
+    - name: Add ec2-user to the docker group
       user:
-        name: ubuntu
+        name: ec2-user
         groups: docker
         append: yes
 
-    - name: Download Docker Compose
-      shell: |
-        curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-        chmod +x /usr/local/bin/docker-compose
-      args:
-        executable: /bin/bash
+    - name: Download latest Docker Compose binary
+      get_url:
+        url: "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64"
+        dest: "/usr/local/bin/docker-compose"
+        mode: 'u+x,g+x'
 
-    - name: Verify Docker Installation
-      shell: docker --version
-      register: docker_version_output
+    - name: Verify Docker installation
+      command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: docker_compose_version
+      changed_when: false
+
+    - name: Print Docker version
+      debug:
+        msg: "Installed Docker version: {{ docker_version.stdout }}"
+
+    - name: Print Docker Compose version
+      debug:
+        msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
 
     - name: Show Docker Version
       debug:
