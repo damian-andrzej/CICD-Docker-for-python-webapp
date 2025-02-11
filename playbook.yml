@@ -99,8 +99,9 @@
         version: "main"                                  # Branch name (default: main)
         update: yes
     # Run docker-compose up
-    - name: Run docker-compose up
+    - name: compose up
       docker_compose:
         project_src: "{{ app_dir }}"
         state: present
         restarted: yes
+    
