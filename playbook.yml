@@ -73,6 +73,21 @@
       loop: "{{ files_to_delete.files }}"
       when: files_to_delete.matched > 0
 
+    - name: Find hidden files (files starting with a dot)
+      find:
+        paths: "/home/ec2-user/app"  # Replace with your directory
+        recurse: yes
+        file_type: file
+        patterns: ".*"  # Matches files starting with a dot
+      register: hidden_files
+
+    - name: Remove hidden files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ hidden_files.files }}"
+      when: hidden_files.matched > 0
+
     - name: Find and remove subdirectories
       find:
         paths: "/home/ec2-user/app"  # Replace with your target directory path
