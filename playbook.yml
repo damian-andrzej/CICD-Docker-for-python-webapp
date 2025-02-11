@@ -12,6 +12,8 @@
           - yum-utils
           - device-mapper-persistent-data
           - lvm2
+          - git
+          - unzip
         state: present
 
     - name: Install Docker
