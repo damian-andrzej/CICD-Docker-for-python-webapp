@@ -361,6 +361,7 @@ jobs:
 ```
 
 Now our ansible execution environment is OK - we are ready to run primary playbook
+
 🔹 What This Playbook Does:
 
 - Updates the system package cache.
