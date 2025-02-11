@@ -22,7 +22,7 @@ jobs:
           echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa  # Remove carriage returns
           chmod 600 ~/.ssh/id_rsa  # Set correct permissions
           ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts  # Add host key
-          ssh -i ~/.ssh/id_rsa ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }}
+          ssh -T -i ~/.ssh/id_rsa ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }}
 
       - name: Run Ansible Playbook
         run: |
