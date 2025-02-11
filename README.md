@@ -241,9 +241,10 @@ Requirements:
 - EC2 machine (us-east1/t2-micro)
 - SSH key
 - security group/ami user with permissions
-- docker packages
+- docker packages (by ansible)
 
-Lets create a security group for ec2 instance. We need ssh access for administration and port 5000 access for app availability
+Its good practice to provision infra by terraform but not configuration and additional packages for this purpose we should use config propagation tools like ansible or packer.
+Lets create a vpc,security group, internet gateway, route table for ec2 instance. We need ssh access for administration and port 5000 access for app availability. Crucial step is to associate IG with VP, without this step we wont be able to connect to machine. Key name is important also because we must have private key for this credential before we ran the script. Its not possible to gather it after the creation!!.
 
 ```
 provider "aws" {
@@ -315,6 +316,121 @@ resource "aws_instance" "flask1-ec2" {
     Name = "flask1-ec2"
   }
 }
+```
+
+## 2.  Ansible - propage config and install necessary packages:
+
+I am going to integrate all steps via CI/CD pipeline by github actions, so first step is to create initial playbook that will:
+
+- Install ansible
+- Setup SSH keys
+- Run ansible playbook
+
+Before initial run its mandatory to setup HOST, USER and SSH_KEY variables for example via github secrets!
+
+```
+name: Deploy Ansible Playbook
+
+on:
+  push:
+    branches:
+      - main  # Runs on push to the main branch
+
+jobs:
+  ansible:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Ansible
+        run: sudo apt update && sudo apt install -y ansible
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa  # Remove carriage returns
+          chmod 600 ~/.ssh/id_rsa  # Set correct permissions
+          ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts  # Add host key
+          ssh -T -i ~/.ssh/id_rsa ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }}
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook -i ${{ secrets.ANSIBLE_HOST }}, -u ${{ secrets.ANSIBLE_USER }} playbook.yml
+```
+
+Now our ansible execution environment is OK - we are ready to run primary playbook
+🔹 What This Playbook Does:
+
+- Updates the system package cache.
+- Installs dependencies needed for Docker.
+- Installs Docker.
+- Starts and enables the Docker service.
+- Adds ec2-user to the Docker group.
+- Installs Docker Compose.
+- Verifies the installations and prints the versions.
+  
+✅ Use Case:
+This playbook is ideal for Amazon Linux, RHEL, or CentOS EC2 instances that need Docker and Docker Compose for containerized applications.
+
+```
+- name: Install Docker and Docker Compose
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt packages
+      yum:
+        update_cache: yes
+
+    - name: Install required system packages
+      yum:
+        name: 
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ec2-user to the docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    - name: Download latest Docker Compose binary
+      get_url:
+        url: "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64"
+        dest: "/usr/local/bin/docker-compose"
+        mode: 'u+x,g+x'
+
+    - name: Verify Docker installation
+      command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: docker_compose_version
+      changed_when: false
+
+    - name: Print Docker version
+      debug:
+        msg: "Installed Docker version: {{ docker_version.stdout }}"
+
+    - name: Print Docker Compose version
+      debug:
+        msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
 ```
 
 
