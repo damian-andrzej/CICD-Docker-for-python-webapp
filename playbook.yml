@@ -60,49 +60,7 @@
     - name: Print Docker Compose version
       debug:
         msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
-
-    - name: Find all files and directories in the target directory
-      find:
-        paths: "{{ app_dir }}"  # Replace with your target directory path
-        recurse: yes  # Search recursively
-        file_type: file  # Find all files
-      register: files_to_delete
-
-    - name: Remove found files
-      file:
-        path: "{{ item.path }}"
-        state: absent
-      loop: "{{ files_to_delete.files }}"
-      when: files_to_delete.matched > 0
-
-    - name: Find hidden files (files starting with a dot)
-      find:
-        paths: "{{ app_dir }}"  # Replace with your directory
-        recurse: yes
-        file_type: file
-        patterns: ".*"  # Matches files starting with a dot
-      register: hidden_files
-
-    - name: Remove hidden files
-      file:
-        path: "{{ item.path }}"
-        state: absent
-      loop: "{{ hidden_files.files }}"
-      when: hidden_files.matched > 0
-
-    - name: Find and remove subdirectories
-      find:
-        paths: "{{ app_dir }}"  # Replace with your target directory path
-        recurse: yes
-        file_type: directory  # Find all directories
-      register: dirs_to_delete
-
-    - name: Remove found directories
-      file:
-        path: "{{ item.path }}"
-        state: absent
-      loop: "{{ dirs_to_delete.files }}"
-      when: dirs_to_delete.matched > 0
+        
 
     - name: Ensure the directory exists
       file:
