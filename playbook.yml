@@ -2,7 +2,7 @@
   hosts: all
   become: yes
   vars:
-    repo_url: "{{ lookup('env', 'REPO_URL') }}"
+    repo_url: https://github.com/damian-andrzej/CICD-Docker-for-python-webapp.git
     app_dir: /home/ec2-user/app
   tasks:
     - name: Update apt packages
