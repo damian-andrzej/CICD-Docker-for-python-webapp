@@ -133,12 +133,12 @@
         update: yes
       when: dir_status.stat.exists == True
 
-    - name: Clone or update the repository
-      git:
-        repo: "{{ repo_url }}"  # Repository URL
-        dest: "{{ app_dir }}"                            # Target directory
-        version: "main"                                  # Branch name (default: main)
-        update: yes
+  #  - name: Clone or update the repository
+  #    git:
+  #      repo: "{{ repo_url }}"  # Repository URL
+  #      dest: "{{ app_dir }}"                            # Target directory
+  #      version: "main"                                  # Branch name (default: main)
+  #      update: yes
         
     # Run docker-compose up
     - name: Start containers using docker-compose
