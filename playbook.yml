@@ -2,6 +2,7 @@
   hosts: all
   become: yes
   vars:
+    repo_name: CICD-Docker-for-python-webapp
     repo_url: https://github.com/damian-andrzej/CICD-Docker-for-python-webapp.git
     app_dir: /home/ec2-user/app
   tasks:
@@ -111,6 +112,26 @@
     - name: Print Repository URL
       debug:
         msg: "The repository URL is {{ repo_url }}"
+
+    - name: Check if the directory exists
+      stat:
+        path: "{{ app_dir + '/' + repo_name }}"
+      register: dir_status
+
+    - name: Clone repository if the directory doesnt exist
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: "main"
+      when: dir_status.stat.exists == False
+
+    - name: Pull the latest changes if the directory exists
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: "main"
+        update: yes
+      when: dir_status.stat.exists == True
 
     - name: Clone or update the repository
       git:
