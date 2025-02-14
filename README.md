@@ -445,10 +445,10 @@ Last part is to trigger start of our application, below job starts app in detach
 ## 3. Room for improvement
 
 - ansbile playbook wait for the ec2 server to be started and running
-- instead of hardcoded paths/server names use github environment ones
-- github repos name as git variable instead of inplicit path
-- simplify process of cloning repository, remove jobs that clear app folder
-  instead use job that only updates changed files (somehow github clone doesnt work as designed)
+- instead of hardcoded paths/server names use github environment ones ✅
+- github repos name as git variable instead of inplicit path ✅
+- simplify process of cloning repository, remove jobs that clear app folder ✅
+  instead use job that only updates changed files (somehow github clone doesnt work as designed) ✅
 
 
 
