@@ -115,6 +115,8 @@
         update: yes
         
     # Run docker-compose up
-    - name: Echo a hello message
-      command: echo "Hello, Ansible!"
+    - name: Start containers using docker-compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/ec2-user/app
     
