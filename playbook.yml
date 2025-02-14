@@ -2,6 +2,7 @@
   hosts: all
   become: yes
   vars:
+    repo_url: {{ lookup('env', 'REPO_URL') }}
     app_dir: /home/ec2-user/app
   tasks:
     - name: Update apt packages
@@ -109,7 +110,7 @@
 
     - name: Clone or update the repository
       git:
-        repo: "https://github.com/damian-andrzej/Jenkins-Docker-for-python-webapp.git"  # Repository URL
+        repo: "{{ repo_url }}"  # Repository URL
         dest: "{{ app_dir }}"                            # Target directory
         version: "main"                                  # Branch name (default: main)
         update: yes
