@@ -61,7 +61,7 @@ resource "aws_security_group" "flask_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_instance" "flask12-ec2" {
+resource "aws_instance" "flask1-ec2" {
   ami           = "ami-085ad6ae776d8f09c"  # Replace with a valid AMI ID
   instance_type = "t2.micro"
   key_name      = "terraform-key"
