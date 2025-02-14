@@ -434,4 +434,21 @@ This playbook is ideal for Amazon Linux, RHEL, or CentOS EC2 instances that need
         msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
 ```
 
+Last part is to trigger start of our application, below job starts app in detached mode
+```
+- name: Start containers using docker-compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/ec2-user/app
+```
+
+## 3. Room for improvement
+
+- ansbile playbook wait for the ec2 server to be started and running
+- instead of hardcoded paths/server names use github environment ones
+- github repos name as git variable instead of inplicit path
+- simplify process of cloning repository, remove jobs that clear app folder
+  instead use job that only updates changed files (somehow github clone doesnt work as designed)
+
+
 
