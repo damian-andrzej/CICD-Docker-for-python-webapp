@@ -108,6 +108,10 @@
         path: "{{ app_dir }}"
         state: directory
 
+    - name: Print Repository URL
+      debug:
+        msg: "The repository URL is {{ repo_url }}"
+
     - name: Clone or update the repository
       git:
         repo: "{{ repo_url }}"  # Repository URL
