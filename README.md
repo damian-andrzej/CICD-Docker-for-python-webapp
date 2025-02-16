@@ -1,7 +1,8 @@
-# Flask User Login App
+# Flask App migration to AWS EC2 by CICD pipeline
 
 ## **Introduction**
 
+App has been deployed by Github pipeline powered by Terraform & Ansible. Infrastructure will be provisioned by Terraform but config and all app stuff done by Ansible
 This is a simple Flask app that allows users to register, log in, and view a protected dashboard. It uses Flask, Flask-SQLAlchemy for database management, and Flask-Bcrypt for password hashing.
 
 ---
@@ -14,7 +15,8 @@ This is a simple Flask app that allows users to register, log in, and view a pro
 - [Running the App](#running-the-app)
 - [Directory Structure](#directory-structure)
 - [App Overview](#app-overview)
-- [Additional Features You Can Add](#additional-features-you-can-add)
+- [Docker Config](#docker-config)
+- [AWS Deployment](#aws-deployment)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -33,6 +35,8 @@ Before getting started, ensure you have the following installed:
 3. **Git** (Optional but recommended)  
    Install from [Git SCM](https://git-scm.com/).
 
+4. **Git** (Optional but recommended)
+
 ---
 
 ### **Setting Up the Project**
@@ -44,8 +48,8 @@ Follow these steps to set up your development environment:
 Clone this repository to your local machine using Git:
 
 ```bash
-git clone https://github.com/damian-andrzej/HA-NoteBuilder.git
-cd HA-NoteBuilder
+git clone https://github.com/damian-andrzej/CICD-Docker-for-python-webapp.git
+cd CICD-Docker-for-python-webapp
 
 ```
 ## 2. Create a Virtual Environment
