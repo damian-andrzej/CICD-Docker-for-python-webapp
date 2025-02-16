@@ -375,6 +375,8 @@ Now our ansible execution environment is OK - we are ready to run primary playbo
 - Adds ec2-user to the Docker group.
 - Installs Docker Compose.
 - Verifies the installations and prints the versions.
+- Compares repository and local files, if its different files are updated
+- start the app by docker-compose command
   
 ✅ Use Case:
 This playbook is ideal for Amazon Linux, RHEL, or CentOS EC2 instances that need Docker and Docker Compose for containerized applications.
@@ -436,6 +438,35 @@ This playbook is ideal for Amazon Linux, RHEL, or CentOS EC2 instances that need
     - name: Print Docker Compose version
       debug:
         msg: "Installed Docker Compose version: {{ docker_compose_version.stdout }}"
+
+    - name: Ensure the directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+
+    - name: Print Repository URL
+      debug:
+        msg: "The repository URL is {{ repo_url }}"
+
+    - name: Check if the directory exists
+      stat:
+        path: "{{ app_dir + '/' + repo_name }}"
+      register: dir_status
+
+    - name: Clone repository if the directory doesnt exist
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: "main"
+      when: dir_status.stat.exists == False
+
+    - name: Pull the latest changes if the directory exists
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: "main"
+        update: yes
+      when: dir_status.stat.exists == True
 ```
 
 Last part is to trigger start of our application, below job starts app in detached mode
