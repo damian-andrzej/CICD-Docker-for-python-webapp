@@ -247,8 +247,17 @@ Requirements:
 - security group/ami user with permissions
 - docker packages (by ansible)
 
-Its good practice to provision infra by terraform but not configuration and additional packages for this purpose we should use config propagation tools like ansible or packer.
+Its good practice to provision infra by terraform but not configuration and additional packages, for this purpose we should use config propagation tools like ansible or packer.
 Lets create a vpc,security group, internet gateway, route table for ec2 instance. We need ssh access for administration and port 5000 access for app availability. Crucial step is to associate IG with VP, without this step we wont be able to connect to machine. Key name is important also because we must have private key for this credential before we ran the script. Its not possible to gather it after the creation!!.
+
+Requirements for aws infrastructure:
+
+- vpc
+- security group
+- internet gateway
+- route tables
+- ec2 version
+- ssh and application port opened
 
 ```
 provider "aws" {
