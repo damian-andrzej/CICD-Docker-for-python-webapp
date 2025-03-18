@@ -196,7 +196,8 @@ pip freeze > requirements.txt
 
 Classic template for flask apps deployment - at this moment without storage and log folders - feature planned for next deployment
 ```
-FROM python:3.9
+#FROM python:3.9
+FROM python:3.9-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -213,6 +214,8 @@ EXPOSE 5000
 # Command to run the application
 CMD ["python", "app.py"]
 ```
+
+To optimize the image use the smallest operating system as possible. In this case python alpine saves about 900mb in comparision to regular python:3.9
 
 Lets update image file to Dockerhub for future automation purposes.
 
