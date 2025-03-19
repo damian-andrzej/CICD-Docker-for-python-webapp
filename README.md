@@ -18,7 +18,6 @@ This is a simple Flask app that allows users to register, log in, and view a pro
 - [Docker Config](#docker-config)
 - [AWS Deployment](#aws-deployment)
 - [Contributing](#contributing)
-- [License](#license)
 
 ---
 
