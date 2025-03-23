@@ -129,24 +129,6 @@ Visit the Login page at /login.
 After logging in successfully, you will be redirected to the Dashboard page.
 
 
-### **Directory Structure**
-Here is a suggested directory structure for this Flask app:
-
-
-flask-user-login-app/
-│
-├── app.py               # Main Flask application file
-├── models.py            # Database models (User model)
-├── config.py            # Configuration settings (e.g., database URI)
-├── forms.py             # Form classes (if any, like registration)
-├── templates/           # HTML templates
-│   ├── login.html       # Login page template
-│   ├── dashboard.html   # Dashboard page template
-│   └── users.html       # List users page template
-├── requirements.txt     # List of dependencies
-├── .gitignore           # Git ignore file
-└── .env                 # Environment variables (not committed to GitHub)
-
 
 ### **App Overview**
 # 1. User Model:
