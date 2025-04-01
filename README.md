@@ -7,7 +7,7 @@ This is a simple Flask app that allows users to register, log in, and view a pro
 
 ---
 
-## **Table of Contents**
+## **Table of Content**
 
 - [Prerequisites](#prerequisites)
 - [Setting Up the Project](#setting-up-the-project)
