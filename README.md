@@ -369,7 +369,7 @@ Now our ansible execution environment is OK - we are ready to run primary playbo
 - Installs Docker Compose.
 - Verifies the installations and prints the versions.
 - Compares repository and local files, if its different files are updated
-- start the app by docker-compose command
+- starting the app by docker-compose command
   
 ✅ Use Case:
 This playbook is ideal for Amazon Linux, RHEL, or CentOS EC2 instances that need Docker and Docker Compose for containerized applications.
